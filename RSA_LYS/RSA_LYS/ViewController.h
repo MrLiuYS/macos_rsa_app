@@ -20,11 +20,21 @@
     
     __weak IBOutlet NSTextField *_privateEncryptFilePath;/**< 导入私钥加密文件路径 */
     
-    __weak IBOutlet NSTextField *_privateKeyTF;/**< 私钥串 */
+//    __weak IBOutlet NSTextField *_privateKeyTF;/**< 私钥串 */
+//
+//    __weak IBOutlet NSTextField *_publiceKeyTF;/**< 公钥串 */
     
-    __weak IBOutlet NSTextField *_publiceKeyTF;/**< 公钥串 */
+    
+    __unsafe_unretained IBOutlet NSTextView *_privateTV;
     
     
+    __unsafe_unretained IBOutlet NSTextView *_publickTV;
+    
+    
+    
+    __weak IBOutlet NSScrollView *_privateKeyTextView;
+    
+    __weak IBOutlet NSScrollView *_publiceKeyTextView;
 }
 
 

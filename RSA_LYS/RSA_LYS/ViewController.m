@@ -20,22 +20,64 @@
 
 - (void)secretKey {
     
-    NSString * publiceKey = [_publiceKeyTF stringValue];
+    //    NSString * publiceKey = [_publickTV.string stringValue];
+    
+    NSString *publiceKey = [NSString stringWithFormat:[_publickTV string]];
     
     if (publiceKey.length > 0) {
+        
+        publiceKey = [self formatkKey:publiceKey];
+        
+        NSLog(@"publiceKey : %@",publiceKey);
+        
         GNFDRSA.publicKeyStr = publiceKey;
         
     }
     
-    NSString * privateKey = [_privateKeyTF stringValue];
+    NSString *privateKey = [NSString stringWithFormat:[_privateTV string]];
     
-    if (publiceKey.length > 0) {
+    if (privateKey.length > 0) {
+        
+        privateKey = [self formatkKey:privateKey];
+        
+        NSLog(@"privateKey : %@",privateKey);
         
         GNFDRSA.privateKeyStr = privateKey;
     }
     
     
 }
+
+- (NSString *)formatkKey:(NSString *)keyStr {
+    
+    keyStr = [keyStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    keyStr = [keyStr stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    keyStr = [keyStr stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
+    keyStr = [keyStr stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
+    keyStr = [keyStr stringByReplacingOccurrencesOfString:@"-----BEGIN PUBLIC KEY-----" withString:@""];
+    keyStr = [keyStr stringByReplacingOccurrencesOfString:@"-----END PUBLIC KEY-----" withString:@""];
+    keyStr = [keyStr stringByReplacingOccurrencesOfString:@"-----BEGIN PRIVATE KEY-----" withString:@""];
+    keyStr = [keyStr stringByReplacingOccurrencesOfString:@"-----END PRIVATE KEY-----" withString:@""];
+    {
+        
+        NSString *text = [NSString stringWithFormat:@"%C", 0x0085];
+        keyStr = [keyStr stringByReplacingOccurrencesOfString:text withString:@""];
+    }
+    {
+        
+        NSString *text = [NSString stringWithFormat:@"%C", 0x2028];
+        keyStr = [keyStr stringByReplacingOccurrencesOfString:text withString:@""];
+    }
+    {
+        
+        NSString *text = [NSString stringWithFormat:@"%C", 0x2029];
+        keyStr = [keyStr stringByReplacingOccurrencesOfString:text withString:@""];
+    }
+    
+    return  keyStr;
+    
+}
+
 
 #pragma mark - 导入未加密源文件
 - (IBAction)touchOpenPanel:(id)sender {
@@ -212,7 +254,7 @@
     }
     
     
-    //    GNFDRSA.publicKeyStr = 
+    //    GNFDRSA.publicKeyStr =
     
     
     NSString *content = [NSString stringWithContentsOfFile:_filePathStr encoding:NSUTF8StringEncoding error:nil];
